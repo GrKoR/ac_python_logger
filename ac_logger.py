@@ -49,7 +49,7 @@ async def main():
                 file.write( packString )
 
     # Subscribe to the log
-    await api.subscribe_logs(log_callback, LOG_LEVEL_VERBOSE)
+    await api.subscribe_logs(log_callback, LOG_LEVEL_DEBUG)
 
 
 loop = asyncio.get_event_loop()

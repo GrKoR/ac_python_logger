@@ -1,3 +1,4 @@
 **/secrets.py
 **/__pycache__/
 **/*.csv
+**/ac_multy_logger*.py
