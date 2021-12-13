@@ -16,8 +16,8 @@ logFileName = "%4d-%02d-%02d %02d-%02d-%02d AC-DATA.csv" % time.localtime()[0:6]
 
 async def main():
     """Connect to an ESPHome device and wait for state changes."""
-    loop = asyncio.get_running_loop()
-    api = aioesphomeapi.APIClient(loop, AC_IP, 6053, AC_PASS)
+    """loop = asyncio.get_running_loop()"""
+    api = aioesphomeapi.APIClient(AC_IP, 6053, AC_PASS)
 
     await api.connect(login=True)
 
@@ -25,7 +25,7 @@ async def main():
 
     def log_callback(log):
         """Print the log for AirCon"""
-        isAirConLog = re.search("\[AirCon:\d+\]: (.+\])", log.message)
+        isAirConLog = re.search("\[AirCon:\d+\]: (.+\])", log.message.decode('utf-8'))
         if isAirConLog:
             """print(log.message)"""
             packString = '\n' + "%4d-%02d-%02d %02d:%02d:%02d" % time.localtime()[0:6]
@@ -47,6 +47,7 @@ async def main():
             print(packString)
             with open(logFileName, 'a+') as file:
                 file.write( packString )
+
 
     # Subscribe to the log
     await api.subscribe_logs(log_callback, LOG_LEVEL_DEBUG)
