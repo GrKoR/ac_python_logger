@@ -28,7 +28,7 @@ python -m pip install asyncio
 Download [logger script](https://raw.githubusercontent.com/GrKoR/ac_python_logger/main/ac_logger.py) to your local folder.
 
 # How to use it #
-## Uptodagte help ##
+## Uptodate help ##
 For help use `-h` parameter. 
 ```
 py ac_logger.py -h
@@ -89,7 +89,7 @@ If your `ac_aux` device has dallas DS18B20 sensors installed you can store it da
 py ac_logger.py -i 192.168.50.12 -p MyCo0lPas$word -d
 ```
 
-If you set it script will capture all dallas data from the esphome log. It will store to the log following data:
+In that case script will capture all dallas data from the esphome log. It will store to the log following data:
 - dallas temperature sensor name
 - date and time of current sensor state
 - temperature value
