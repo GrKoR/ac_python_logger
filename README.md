@@ -111,3 +111,16 @@ Every time when logger receives data it will save it to CSV file. This file is l
 You may open this file without script termination if your csv-viewer isn't locking csv-file. For example Notepad++.
 
 Open file with Excell or LibreOffice for analyze. But before this you need to terminate script cause spreadsheet processor may lock the csv-file.
+
+# Important notes #
+## Script and esphome addon for Home Assistant ##
+Users reports that there is an error in case of opening esphome addon log after script start:
+```
+Unexpected error while reading incoming messages: ...
+...
+AttributeError: 'NoneType' object has no attribute 'group'
+```
+
+This error isn't reproduced if you will start the script and then:
+- view log in esp web-server;
+- view log with `esphome logs your.yaml` console command. 
