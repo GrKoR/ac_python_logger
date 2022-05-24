@@ -11,7 +11,12 @@ Also csv logs can be sent to [ac_aux component](https://github.com/GrKoR/esphome
 # How to install #
 
 ## Step 1: python installation ##
-You need a python installed. See [Python beginners guide](https://wiki.python.org/moin/BeginnersGuide) for details.
+You need a `python 3.7` or newer installed. See [Python beginners guide](https://wiki.python.org/moin/BeginnersGuide) for details.
+
+If you have python already check it version with this command:
+```
+python --version
+```
 
 ## Step 2: modules ##
 Next you need this modules:
@@ -24,7 +29,21 @@ python -m pip install aioesphomeapi
 python -m pip install asyncio
 ```
 
-## Step 3: logger ##
+In case of existing modules check its versions. It should be `10.x` or newer for `aioesphomeapi` and `3.4` or newer for `asyncio`. If this isn't the case then update the modules:
+```
+pip3 install aioesphomeapi -U
+pip3 install asyncio -U
+```
+
+When updating the `aioesphomeapi` module, it is possible to receive an error like this:
+`ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.`
+`esphome 2022.5.0 requires aioesphomeapi==10.8.2, but you have aioesphomeapi 10.10.0 which is incompatible.`
+This isn't a problem. Just make sure that it reports aioesphomeapi version `10.x` or newer in the last row. Otherwise, update the esphome module:
+```
+pip3 install esphome -U
+```
+
+## Step 3: The logger ##
 Download [logger script](https://raw.githubusercontent.com/GrKoR/ac_python_logger/main/ac_logger.py) to your local folder.
 
 # How to use it #
@@ -68,7 +87,7 @@ py ac_logger.py -i 192.168.0.1 -p MyCo0lPas$word -n ac_kitchen
 
 This feature is very useful if you want capture logs from several independent AUX HVACs into the common log file. In case of logging a multisplit AC this feature is useful too.
 
-Just run several ac_logger.py scripts with different parameters. It may looks like this:
+Just run several ac_logger.py scripts with different parameters and the same logfile. It may looks like this:
 
 console one:
 ```
@@ -94,7 +113,7 @@ In that case script will capture all dallas data from the esphome log. It will s
 - date and time of current sensor state
 - temperature value
 
-In the logfile dallas sensor generates record like this:
+In the logfile dallas sensor generates records like this:
 ```
 Outdoor Temperature;2021-12-15 17:22:17;;[<=];AA;4.4
 ```
@@ -114,7 +133,7 @@ Open file with Excell or LibreOffice for analyze. But before this you need to te
 
 # Important notes #
 ## Script and esphome addon for Home Assistant ##
-Users reports that there is an error in case of opening esphome addon log after script start:
+Users reports that there is an error in case of opening HA esphome addon log after script start:
 ```
 Unexpected error while reading incoming messages: ...
 ...
