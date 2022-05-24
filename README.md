@@ -13,7 +13,7 @@ Also csv logs can be sent to [ac_aux component](https://github.com/GrKoR/esphome
 ## Step 1: python installation ##
 You need a `python 3.7` or newer installed. See [Python beginners guide](https://wiki.python.org/moin/BeginnersGuide) for details.
 
-If you have python already check it version with this command:
+If you already have the python check it version with this command:
 ```
 python --version
 ```
