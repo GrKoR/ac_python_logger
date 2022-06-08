@@ -24,6 +24,7 @@ def createParser ():
     parent_group.add_argument ('-n', '--name', nargs=1, default=['noname'], help='name of this devace in the log')
     parent_group.add_argument ('-l', '--logfile', nargs=1, default=['%4d-%02d-%02d %02d-%02d-%02d log.csv' % time.localtime()[0:6]], help='log file name')
     parent_group.add_argument ('-d', '--logdallas', action='store_true', default=False, help='Whether or not to save the outdoor temperature to the log. Script will try to find dallas.sensor output in the esphome api. If there are several dallas sensors in the esp device all of them will be stored in the log.')
+    parent_group.add_argument ('-g', '--logping', action='store_false', default=True, help='Whether or not to save the ping messages to the log.')
     return parser
 
 async def main():
@@ -46,15 +47,25 @@ async def main():
         """direction"""
         packString += ";" + parts.group(2)
         """header"""
-        packString += ";" + ';'.join(parts.group(3).split(" "))
+        header_list = parts.group(3).split(" ")
+        is_ping = (header_list[2] == "01")
+        packString += ";" + ';'.join(header_list)
         """body (may be void)"""
         if len(parts.group(4)) > 0:
             packString += ";" + ';'.join(parts.group(4).split(" "))
         """crc"""
         packString += ";" + ';'.join(parts.group(5).split(" "))
         print(packString)
-        with open(namespace.logfile[0], 'a+') as file:
-            file.write( packString )
+        
+        if is_ping:
+            if namespace.logping:
+                with open(namespace.logfile[0], 'a+') as file:
+                    file.write( packString )
+            else:
+                print("ping skipped")
+        else:
+            with open(namespace.logfile[0], 'a+') as file:
+                file.write( packString )
 
     def log_Dallas(isDallasLog):
         parts = re.search("'([\w ]+)': Got Temperature=([-]?\d+\.\d+)°C", isDallasLog.group(1))
