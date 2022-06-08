@@ -124,6 +124,15 @@ Where
 - `AA` is the custom record flag
 - `4.4` is temperature value
 
+## How to ignore ping messages? ##
+AUX HVAC sends ping-request every 3 seconds and wifi-module responses to it. These messages are flood your log and gives you no sufficient information. To avoid it you can switch off the ping messages capturing.  
+Just set `-с` parameter of the script.
+```
+py ac_logger.py -i 192.168.50.12 -p MyCo0lPas$word -с
+```
+
+This will disable ping messages saving.
+
 
 ## The results ##
 Every time when logger receives data it will save it to CSV file. This file is located in the current folder.
