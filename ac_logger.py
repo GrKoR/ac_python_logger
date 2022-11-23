@@ -2,7 +2,6 @@ import time
 import aioesphomeapi
 import asyncio
 import re
-import sys
 import argparse
 from aioesphomeapi.api_pb2 import (LOG_LEVEL_NONE,
                                    LOG_LEVEL_ERROR,
@@ -24,7 +23,7 @@ def createParser ():
     parent_group.add_argument ('-n', '--name', nargs=1, default=['noname'], help='name of this devace in the log')
     parent_group.add_argument ('-l', '--logfile', nargs=1, default=['%4d-%02d-%02d %02d-%02d-%02d log.csv' % time.localtime()[0:6]], help='log file name')
     parent_group.add_argument ('-d', '--logdallas', action='store_true', default=False, help='Whether or not to save the outdoor temperature to the log. Script will try to find dallas.sensor output in the esphome api. If there are several dallas sensors in the esp device all of them will be stored in the log.')
-    parent_group.add_argument ('-g', '--logping', action='store_false', default=True, help='Whether or not to save the ping messages to the log.')
+    parent_group.add_argument ('-g', '--logping', action='store_true', default=False, help='Whether or not to save the ping messages to the log.')
     return parser
 
 async def main():
@@ -98,19 +97,20 @@ async def main():
     await api.subscribe_logs(log_callback, LOG_LEVEL_DEBUG)
 
 
-parser = createParser()
-namespace = parser.parse_args()
-print(namespace.name[0], namespace.ip[0])
+if __name__ == "__main__":
+    parser = createParser()
+    namespace = parser.parse_args()
+    print(namespace.name[0], namespace.ip[0])
 
 
-loop = asyncio.get_event_loop()
-try:
-    asyncio.ensure_future(main())
-    loop.run_forever()
-except aioesphomeapi.InvalidAuthAPIError as e:
-    print(e)
-except KeyboardInterrupt:
-    pass
-finally:
-    #loop.close()
-    pass
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        asyncio.ensure_future(main(), loop=loop)
+        loop.run_forever()
+    except aioesphomeapi.InvalidAuthAPIError as e:
+        print(e)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        pass

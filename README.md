@@ -10,8 +10,11 @@ Also csv logs can be sent to [ac_aux component](https://github.com/GrKoR/esphome
 
 # How to install #
 
+## Important
+You should enter all the commands from this guide in the command line (in Windows) or in the terminal (in Linux). Not in the python shell.
+
 ## Step 1: python installation ##
-You need a `python 3.7` or newer installed. See [Python beginners guide](https://wiki.python.org/moin/BeginnersGuide) for details.
+You need a `python 3.11` or newer installed. See [Python beginners guide](https://wiki.python.org/moin/BeginnersGuide) for details.
 
 If you already have the python check it version with this command:
 ```
@@ -23,7 +26,7 @@ Next you need this modules:
 1. [aioesphomeapi](https://github.com/esphome/aioesphomeapi)
 2. [asyncio](https://docs.python.org/3/library/asyncio.html)
 
-Installation of this modules is simple and [described in official guide](https://docs.python.org/3/installing/index.html). You just need commands:
+Installation of these modules is simple and [described in official guide](https://docs.python.org/3/installing/index.html). You just need commands:
 ```
 python -m pip install aioesphomeapi
 python -m pip install asyncio
@@ -35,9 +38,9 @@ pip3 install aioesphomeapi -U
 pip3 install asyncio -U
 ```
 
-When updating the `aioesphomeapi` module, it is possible to receive an error like this:
-`ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.`
-`esphome 2022.5.0 requires aioesphomeapi==10.8.2, but you have aioesphomeapi 10.10.0 which is incompatible.`
+When updating the `aioesphomeapi` module, it is possible to receive an error like this:  
+`ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.`  
+`esphome 2022.5.0 requires aioesphomeapi==10.8.2, but you have aioesphomeapi 10.10.0 which is incompatible.`  
 This isn't a problem. Just make sure that it reports aioesphomeapi version `10.x` or newer in the last row. Otherwise, update the esphome module:
 ```
 pip3 install esphome -U
@@ -50,7 +53,7 @@ Download [logger script](https://raw.githubusercontent.com/GrKoR/ac_python_logge
 ## Uptodate help ##
 For help use `-h` parameter. 
 ```
-py ac_logger.py -h
+python ac_logger.py -h
 ```
 
 ## Run the script ##
@@ -58,9 +61,9 @@ Script has two required params:
 - -i - IP address of the `ac_aux` device
 - -p - Password of native esphome API for the `ac_aux` device 
 
-The following minimal command will run script:
+The following minimal command will run the script:
 ```
-py ac_logger.py -i 192.168.0.1 -p MyCo0lPas$word
+python ac_logger.py -i 192.168.0.1 -p MyCo0lPas$word
 ```
 
 Script will work till you stop it by CTRL+C.
@@ -71,7 +74,7 @@ noname,2021-06-02 22:22:22,0000123456,[<=],BB,00,01,00,00,00,00,00,43,FF
 
 ## Log file name ##
 ```
-py ac_logger.py -i 192.168.0.1 -p MyCo0lPas$word -l common_data.csv
+python ac_logger.py -i 192.168.0.1 -p MyCo0lPas$word -l common_data.csv
 ```
 When you start script it creates new or open for append existing csv-file for writing data.
 
@@ -82,7 +85,7 @@ You can set filename as you wish by specifying `-l new_file_name.csv` command li
 ## Device name ##
 If you want to name your device in the log you should specify `-n NAME` command line parameter.
 ```
-py ac_logger.py -i 192.168.0.1 -p MyCo0lPas$word -n ac_kitchen
+python ac_logger.py -i 192.168.0.1 -p MyCo0lPas$word -n ac_kitchen
 ```
 
 This feature is very useful if you want capture logs from several independent AUX HVACs into the common log file. In case of logging a multisplit AC this feature is useful too.
@@ -91,12 +94,12 @@ Just run several ac_logger.py scripts with different parameters and the same log
 
 console one:
 ```
-py ac_logger.py -i 192.168.0.100 -p MyCo0lPas$word -n ac_kitchen -l common_log.csv
+python ac_logger.py -i 192.168.0.100 -p MyCo0lPas$word -n ac_kitchen -l common_log.csv
 ```
 
 console two:
 ```
-py ac_logger.py -i 192.168.0.101 -p MyCo0lPas$word -n ac_livingroom -l common_log.csv
+python ac_logger.py -i 192.168.0.101 -p MyCo0lPas$word -n ac_livingroom -l common_log.csv
 ```
 
 Pay attention to identical logfile name for all consoles.
@@ -105,7 +108,7 @@ Pay attention to identical logfile name for all consoles.
 ## Dallas temperature logging ##
 If your `ac_aux` device has dallas DS18B20 sensors installed you can store it data to the logfile. Just set `-d` parameter of the script.
 ```
-py ac_logger.py -i 192.168.50.12 -p MyCo0lPas$word -d
+python ac_logger.py -i 192.168.50.12 -p MyCo0lPas$word -d
 ```
 
 In that case script will capture all dallas data from the esphome log. It will store to the log following data:
@@ -125,13 +128,14 @@ Where
 - `4.4` is temperature value
 
 ## How to ignore ping messages? ##
-AUX HVAC sends ping-request every 3 seconds and wifi-module responses to it. These messages are flood your log and gives you no sufficient information. To avoid it you can switch off the ping messages capturing.  
-Just set `-g` parameter of the script.
+AUX HVAC sends ping-request every 3 seconds and wifi-module responds to it. These messages are flood your log and gives you no sufficient information. By default the script ignores ping messages.
+
+In case you need to capture ping messages, set `-g` parameter of the script.
 ```
-py ac_logger.py -i 192.168.50.12 -p MyCo0lPas$word -g
+python ac_logger.py -i 192.168.50.12 -p MyCo0lPas$word -g
 ```
 
-This will disable ping messages saving.
+This will enable ping messages saving.
 
 
 ## The results ##
