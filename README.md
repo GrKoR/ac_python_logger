@@ -127,7 +127,7 @@ Where
 - `AA` is the custom record flag
 - `4.4` is temperature value
 
-## How to ignore ping messages? ##
+## How to capture ping messages? ##
 AUX HVAC sends ping-request every 3 seconds and wifi-module responds to it. These messages are flood your log and gives you no sufficient information. By default the script ignores ping messages.
 
 In case you need to capture ping messages, set `-g` parameter of the script.
