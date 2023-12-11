@@ -37,8 +37,8 @@ async def main():
 
     print(api.api_version)
 
-    def log_AC(isAirConLog):
-        parts = re.search("(\d{10}): (\[\S{2}\]) \[([0-9A-F ]{23})\]\s?((?:[0-9A-F]{2}\s*)*) \[([0-9A-F ]{5})\]", isAirConLog.group(1))
+    def log_AC(logstring: str):
+        parts = re.search(r"(\d{10}): (\[\S{2}\]) \[([0-9A-F ]{23})\]\s?((?:[0-9A-F]{2}\s*)*) \[([0-9A-F ]{5})\]", logstring)
         packString = '\n' + namespace.name[0]
         packString += ";" + "%4d-%02d-%02d %02d:%02d:%02d" % time.localtime()[0:6]
         """millis of message"""
@@ -86,7 +86,10 @@ async def main():
         """Print the log for AirCon"""
         isAirConLog = re.search("\[AirCon:\d+\]: (.+\])", log.message.decode('utf-8'))
         if isAirConLog:
-            log_AC(isAirConLog)
+            logstring = isAirConLog.group(1)
+            if re.match("^\d{10}: ", logstring) is None:
+                logstring = "0000000000: " + logstring
+            log_AC(logstring)
         if namespace.logdallas:
             isDallasLog = re.search("\[dallas.sensor:\d+\]: (.+C)", log.message.decode('utf-8'))
             if isDallasLog:
@@ -100,6 +103,10 @@ async def main():
 if __name__ == "__main__":
     parser = createParser()
     namespace = parser.parse_args()
+    namespace.name[0] = namespace.name[0].strip()
+    namespace.ip[0] = namespace.ip[0].strip()
+    namespace.pwd[0] = namespace.pwd[0].strip()
+    namespace.logfile[0] = namespace.logfile[0].strip()
     print(namespace.name[0], namespace.ip[0])
 
 
