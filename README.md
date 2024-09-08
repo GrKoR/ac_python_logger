@@ -57,19 +57,31 @@ python ac_logger.py -h
 ```
 
 ## Run the script ##
-Script has two required params:
+Script has one required param:
 - -i - IP address of the `ac_aux` device
-- -p - Password of native esphome API for the `ac_aux` device 
 
 The following minimal command will run the script:
 ```
-python ac_logger.py -i 192.168.0.1 -p MyCo0lPas$word
+python ac_logger.py -i 192.168.0.1
 ```
 
 Script will work till you stop it by CTRL+C.
 During the script execution you will see logger messages on the screen. Something like this:
 ```
 noname,2021-06-02 22:22:22,0000123456,[<=],BB,00,01,00,00,00,00,00,43,FF
+```
+
+## API password and encryption key
+Script can work with devices with API password or encryption.
+
+Use it with password like this:
+```
+python ac_logger.py -i 192.168.0.1 -p MyCo0lPas$w0rd
+```
+
+Use it with preshared key like this:
+```
+python ac_logger.py -i 192.168.0.1 -e xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx=
 ```
 
 ## Log file name ##
